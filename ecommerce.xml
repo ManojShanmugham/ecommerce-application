@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 5.1.0
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: Mar 23, 2021 at 10:23 PM
+- Server version: 10.4.18-MariaDB
+- PHP Version: 8.0.3
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="ecommerce" collation="utf8mb4_general_ci" charset="utf8mb4">
+            <pma:table name="cart">
+                CREATE TABLE `cart` (
+                  `quantity` int(11) NOT NULL,
+                  `p_id` int(11) NOT NULL,
+                  `u_id` int(11) NOT NULL,
+                  KEY `p_id` (`p_id`),
+                  KEY `u_id` (`u_id`),
+                  CONSTRAINT `p_idcfk` FOREIGN KEY (`p_id`) REFERENCES `product` (`p_id`) ON DELETE CASCADE,
+                  CONSTRAINT `u_idufk` FOREIGN KEY (`u_id`) REFERENCES `user_ids` (`u_id`) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="category">
+                CREATE TABLE `category` (
+                  `c_type` varchar(30) NOT NULL,
+                  `c_info` varchar(30) NOT NULL,
+                  PRIMARY KEY (`c_type`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="laptop">
+                CREATE TABLE `laptop` (
+                  `p_id` int(11) NOT NULL,
+                  `p_category` varchar(30) NOT NULL,
+                  `brand` varchar(30) NOT NULL,
+                  `model_no` varchar(30) NOT NULL,
+                  `color` varchar(15) DEFAULT NULL,
+                  `ram` int(11) NOT NULL,
+                  `storage` float DEFAULT NULL,
+                  `display_size` float DEFAULT NULL,
+                  PRIMARY KEY (`p_id`),
+                  KEY `p_category` (`p_category`),
+                  CONSTRAINT `p_catelfk` FOREIGN KEY (`p_category`) REFERENCES `category` (`c_type`) ON DELETE CASCADE,
+                  CONSTRAINT `p_idlfk` FOREIGN KEY (`p_id`) REFERENCES `product` (`p_id`) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="mobile">
+                CREATE TABLE `mobile` (
+                  `p_id` int(11) NOT NULL,
+                  `p_category` varchar(30) NOT NULL,
+                  `brand` varchar(30) NOT NULL,
+                  `model_name` varchar(30) NOT NULL,
+                  `display_size` float DEFAULT NULL,
+                  `color` varchar(15) DEFAULT NULL,
+                  `storage` float DEFAULT NULL,
+                  `ram` int(11) NOT NULL,
+                  PRIMARY KEY (`p_id`),
+                  KEY `p_category` (`p_category`),
+                  CONSTRAINT `p_catemfk` FOREIGN KEY (`p_category`) REFERENCES `category` (`c_type`) ON DELETE CASCADE,
+                  CONSTRAINT `p_idmfk` FOREIGN KEY (`p_id`) REFERENCES `product` (`p_id`) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="orders">
+                CREATE TABLE `orders` (
+                  `order_date` date NOT NULL,
+                  `quantity` int(11) NOT NULL,
+                  `p_id` int(11) NOT NULL,
+                  `u_id` int(11) NOT NULL,
+                  `o_id` int(11) NOT NULL,
+                  PRIMARY KEY (`o_id`,`p_id`),
+                  KEY `p_id` (`p_id`),
+                  KEY `u_id` (`u_id`),
+                  CONSTRAINT `p_idofk` FOREIGN KEY (`p_id`) REFERENCES `product` (`p_id`) ON DELETE CASCADE,
+                  CONSTRAINT `u_idofk` FOREIGN KEY (`u_id`) REFERENCES `user_ids` (`u_id`) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="orders_details">
+                CREATE TABLE `orders_details` (
+                  `p_id` int(11) NOT NULL,
+                  `o_id` int(11) NOT NULL,
+                  `p_name` varchar(30) NOT NULL,
+                  `price` int(11) NOT NULL,
+                  `c_type` varchar(30) NOT NULL,
+                  `order_date` date NOT NULL,
+                  `quantity` int(11) NOT NULL,
+                  `u_id` int(11) NOT NULL,
+                  PRIMARY KEY (`o_id`,`p_id`),
+                  KEY `p_id` (`p_id`),
+                  KEY `u_id` (`u_id`),
+                  CONSTRAINT `o_idodfk` FOREIGN KEY (`p_id`) REFERENCES `orders` (`p_id`) ON DELETE CASCADE,
+                  CONSTRAINT `p_idodfk` FOREIGN KEY (`p_id`) REFERENCES `product` (`p_id`) ON DELETE CASCADE,
+                  CONSTRAINT `u_idodfk` FOREIGN KEY (`u_id`) REFERENCES `user_ids` (`u_id`) ON DELETE CASCADE
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="product">
+                CREATE TABLE `product` (
+                  `p_id` int(11) NOT NULL,
+                  `p_name` varchar(30) NOT NULL,
+                  `price` float NOT NULL,
+                  `availability` int(11) NOT NULL,
+                  `c_type` varchar(30) NOT NULL,
+                  PRIMARY KEY (`p_id`),
+                  KEY `c_type` (`c_type`),
+                  CONSTRAINT `c_typepfk` FOREIGN KEY (`c_type`) REFERENCES `category` (`c_type`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+            <pma:table name="user_ids">
+                CREATE TABLE `user_ids` (
+                  `u_id` int(11) NOT NULL,
+                  `fname` varchar(30) NOT NULL,
+                  `lname` varchar(30) NOT NULL,
+                  `email` varchar(30) NOT NULL,
+                  `user_name` varchar(30) NOT NULL,
+                  `address` varchar(60) NOT NULL,
+                  `phone_no` varchar(10) NOT NULL,
+                  `password` varchar(20) DEFAULT NULL,
+                  PRIMARY KEY (`u_id`),
+                  UNIQUE KEY `user_name` (`user_name`),
+                  UNIQUE KEY `email` (`email`,`phone_no`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'ecommerce'
+    -->
+    <database name="ecommerce">
+        <!-- Table cart -->
+        <table name="cart">
+            <column name="quantity">1</column>
+            <column name="p_id">1521</column>
+            <column name="u_id">45215</column>
+        </table>
+        <table name="cart">
+            <column name="quantity">2</column>
+            <column name="p_id">2261</column>
+            <column name="u_id">25142</column>
+        </table>
+        <table name="cart">
+            <column name="quantity">1</column>
+            <column name="p_id">1191</column>
+            <column name="u_id">14521</column>
+        </table>
+        <table name="cart">
+            <column name="quantity">3</column>
+            <column name="p_id">3322</column>
+            <column name="u_id">14521</column>
+        </table>
+        <!-- Table category -->
+        <table name="category">
+            <column name="c_type">Laptop</column>
+            <column name="c_info">Portable Computers</column>
+        </table>
+        <table name="category">
+            <column name="c_type">Mobile</column>
+            <column name="c_info">Hand-held Devices</column>
+        </table>
+        <table name="category">
+            <column name="c_type">Speakers</column>
+            <column name="c_info">Audio Devices</column>
+        </table>
+        <table name="category">
+            <column name="c_type">TV</column>
+            <column name="c_info">Entertainment Devices</column>
+        </table>
+        <!-- Table laptop -->
+        <table name="laptop">
+            <column name="p_id">1521</column>
+            <column name="p_category">Laptop</column>
+            <column name="brand">ASUS</column>
+            <column name="model_no">Zenbook</column>
+            <column name="color">Black</column>
+            <column name="ram">8</column>
+            <column name="storage">2</column>
+            <column name="display_size">15</column>
+        </table>
+        <table name="laptop">
+            <column name="p_id">1631</column>
+            <column name="p_category">Laptop</column>
+            <column name="brand">DELL</column>
+            <column name="model_no">5559</column>
+            <column name="color">Silver</column>
+            <column name="ram">16</column>
+            <column name="storage">2</column>
+            <column name="display_size">15</column>
+        </table>
+        <table name="laptop">
+            <column name="p_id">2261</column>
+            <column name="p_category">Laptop</column>
+            <column name="brand">HP</column>
+            <column name="model_no">Pavilion</column>
+            <column name="color">Blue</column>
+            <column name="ram">8</column>
+            <column name="storage">1</column>
+            <column name="display_size">13</column>
+        </table>
+        <table name="laptop">
+            <column name="p_id">3241</column>
+            <column name="p_category">Laptop</column>
+            <column name="brand">APPLE</column>
+            <column name="model_no">Macbook Pro</column>
+            <column name="color">White</column>
+            <column name="ram">4</column>
+            <column name="storage">0.5</column>
+            <column name="display_size">13</column>
+        </table>
+        <!-- Table mobile -->
+        <table name="mobile">
+            <column name="p_id">1191</column>
+            <column name="p_category">Mobile</column>
+            <column name="brand">SAMSUNG</column>
+            <column name="model_name">A10E</column>
+            <column name="display_size">5.5</column>
+            <column name="color">Blue</column>
+            <column name="storage">32</column>
+            <column name="ram">4</column>
+        </table>
+        <table name="mobile">
+            <column name="p_id">3322</column>
+            <column name="p_category">Mobile</column>
+            <column name="brand">OPPO</column>
+            <column name="model_name">F1S</column>
+            <column name="display_size">5</column>
+            <column name="color">Black</column>
+            <column name="storage">64</column>
+            <column name="ram">5</column>
+        </table>
+        <table name="mobile">
+            <column name="p_id">4634</column>
+            <column name="p_category">Mobile</column>
+            <column name="brand">XIAOMI</column>
+            <column name="model_name">Redmi K10</column>
+            <column name="display_size">6</column>
+            <column name="color">Red</column>
+            <column name="storage">128</column>
+            <column name="ram">7</column>
+        </table>
+        <table name="mobile">
+            <column name="p_id">7614</column>
+            <column name="p_category">Mobile</column>
+            <column name="brand">SONY</column>
+            <column name="model_name">Xperia</column>
+            <column name="display_size">4.5</column>
+            <column name="color">Green</column>
+            <column name="storage">64</column>
+            <column name="ram">6</column>
+        </table>
+        <!-- Table orders -->
+        <table name="orders">
+            <column name="order_date">2021-03-18</column>
+            <column name="quantity">1</column>
+            <column name="p_id">1521</column>
+            <column name="u_id">45215</column>
+            <column name="o_id">27425</column>
+        </table>
+        <table name="orders">
+            <column name="order_date">2021-03-23</column>
+            <column name="quantity">1</column>
+            <column name="p_id">3241</column>
+            <column name="u_id">25142</column>
+            <column name="o_id">41254</column>
+        </table>
+        <table name="orders">
+            <column name="order_date">2021-03-19</column>
+            <column name="quantity">2</column>
+            <column name="p_id">1191</column>
+            <column name="u_id">14521</column>
+            <column name="o_id">65216</column>
+        </table>
+        <table name="orders">
+            <column name="order_date">2021-03-19</column>
+            <column name="quantity">3</column>
+            <column name="p_id">2261</column>
+            <column name="u_id">14521</column>
+            <column name="o_id">65216</column>
+        </table>
+        <!-- Table orders_details -->
+        <table name="orders_details">
+            <column name="p_id">1521</column>
+            <column name="o_id">27425</column>
+            <column name="p_name">ASUS Laptop</column>
+            <column name="price">600</column>
+            <column name="c_type">Laptop</column>
+            <column name="order_date">2021-03-18</column>
+            <column name="quantity">1</column>
+            <column name="u_id">45215</column>
+        </table>
+        <table name="orders_details">
+            <column name="p_id">3241</column>
+            <column name="o_id">41254</column>
+            <column name="p_name">ASUS Laptop</column>
+            <column name="price">600</column>
+            <column name="c_type">Laptop</column>
+            <column name="order_date">2021-03-23</column>
+            <column name="quantity">1</column>
+            <column name="u_id">25142</column>
+        </table>
+        <table name="orders_details">
+            <column name="p_id">1191</column>
+            <column name="o_id">65216</column>
+            <column name="p_name">ASUS Laptop</column>
+            <column name="price">600</column>
+            <column name="c_type">Laptop</column>
+            <column name="order_date">2021-03-19</column>
+            <column name="quantity">2</column>
+            <column name="u_id">14521</column>
+        </table>
+        <table name="orders_details">
+            <column name="p_id">2261</column>
+            <column name="o_id">65216</column>
+            <column name="p_name">ASUS Laptop</column>
+            <column name="price">600</column>
+            <column name="c_type">Laptop</column>
+            <column name="order_date">2021-03-19</column>
+            <column name="quantity">3</column>
+            <column name="u_id">14521</column>
+        </table>
+        <!-- Table product -->
+        <table name="product">
+            <column name="p_id">1191</column>
+            <column name="p_name">SAMSUNG Mobile</column>
+            <column name="price">800</column>
+            <column name="availability">400</column>
+            <column name="c_type">Mobile</column>
+        </table>
+        <table name="product">
+            <column name="p_id">1521</column>
+            <column name="p_name">ASUS Laptop</column>
+            <column name="price">600</column>
+            <column name="availability">2000</column>
+            <column name="c_type">Laptop</column>
+        </table>
+        <table name="product">
+            <column name="p_id">1631</column>
+            <column name="p_name">DELL Laptop</column>
+            <column name="price">700</column>
+            <column name="availability">500</column>
+            <column name="c_type">Laptop</column>
+        </table>
+        <table name="product">
+            <column name="p_id">2261</column>
+            <column name="p_name">HP Laptop</column>
+            <column name="price">650</column>
+            <column name="availability">600</column>
+            <column name="c_type">Laptop</column>
+        </table>
+        <table name="product">
+            <column name="p_id">3241</column>
+            <column name="p_name">APPLE Laptop</column>
+            <column name="price">1100</column>
+            <column name="availability">300</column>
+            <column name="c_type">Laptop</column>
+        </table>
+        <table name="product">
+            <column name="p_id">3322</column>
+            <column name="p_name">OPPO Mobile</column>
+            <column name="price">650</column>
+            <column name="availability">500</column>
+            <column name="c_type">Mobile</column>
+        </table>
+        <table name="product">
+            <column name="p_id">4634</column>
+            <column name="p_name">XIAOMI Mobile</column>
+            <column name="price">350</column>
+            <column name="availability">700</column>
+            <column name="c_type">Mobile</column>
+        </table>
+        <table name="product">
+            <column name="p_id">7614</column>
+            <column name="p_name">SONY Mobile</column>
+            <column name="price">300</column>
+            <column name="availability">600</column>
+            <column name="c_type">Mobile</column>
+        </table>
+        <!-- Table user_ids -->
+        <table name="user_ids">
+            <column name="u_id">14521</column>
+            <column name="fname">Dave</column>
+            <column name="lname">Brown</column>
+            <column name="email">davebrown@gmail.com</column>
+            <column name="user_name">davebr34</column>
+            <column name="address">508 Central Ave. Klamath Falls, OR 97603</column>
+            <column name="phone_no">2564154215</column>
+            <column name="password">lakhjsn</column>
+        </table>
+        <table name="user_ids">
+            <column name="u_id">25142</column>
+            <column name="fname">Paul</column>
+            <column name="lname">Howell</column>
+            <column name="email">paulhowl@gmail.com</column>
+            <column name="user_name">paulhoul1</column>
+            <column name="address">9257 Edgewood St. Greensboro, NC 27405</column>
+            <column name="phone_no">9178452142</column>
+            <column name="password">yyy2145</column>
+        </table>
+        <table name="user_ids">
+            <column name="u_id">45215</column>
+            <column name="fname">John</column>
+            <column name="lname">Smith</column>
+            <column name="email">johnsmith@gmail.com</column>
+            <column name="user_name">johnsmith25</column>
+            <column name="address">428 Harvey Drive, Auburn, NY 13021</column>
+            <column name="phone_no">6142574125</column>
+            <column name="password">xxx3321</column>
+        </table>
+        <table name="user_ids">
+            <column name="u_id">78451</column>
+            <column name="fname">Allan</column>
+            <column name="lname">Henry</column>
+            <column name="email">allanhenry@gmail.com</column>
+            <column name="user_name">allenhy65</column>
+            <column name="address">148 S. Ketch Harbour Dr. Revere, MA 02151</column>
+            <column name="phone_no">5421542355</column>
+            <column name="password">lll4521</column>
+        </table>
+    </database>
+</pma_xml_export>
