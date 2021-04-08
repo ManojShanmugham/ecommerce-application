@@ -1,0 +1,48 @@
+.myDiv {
+	margin-top: 5px;
+	 margin-left: 380px;
+	height : 55px;
+	width :15%;
+  border: 5px outset red;
+  background-color: #AFEEEE;
+  text-align: center;
+}
+
+.myDiv1 {
+	margin-top: 150px;
+	 margin-left: 120px;
+	height : 20px;
+	width :15%;
+  border: 5px outset red;
+  background-color: #AFEEEE;
+  text-align: center;
+}
+
+.button {
+  border-color: red;
+  color: black;
+  
+  
+}
+
+
+
+
+
+ body{
+	background-image:url("background.jpg");
+	background-size: cover;
+ }
+ 
+ .new{
+	 margin-top: 140px;
+	 margin-left : 320px;
+ }
+ 
+  .new1{
+	 margin-top: 5px;
+	 margin-left : 475px;
+ }
+	 
+ 
+ 

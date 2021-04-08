@@ -1,0 +1,102 @@
+ body{
+	background-image:url("adminback.jpg");
+	background-size: cover;
+ }
+
+
+.button {
+  background-color: #afeeee;
+  border-color: red;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius : 8px;
+  
+}
+
+ 
+.button1{
+ background-color: #afeeee;
+  border-color: red;
+  color: black;
+  padding: 5px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: -25px 2px;
+  cursor: pointer;
+  border-radius : 8px;
+  
+
+}
+.button2{
+
+ background-color: #afeeee;
+  border-color: red;
+  color: black;
+  padding: 5px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin-top : 70px;
+  margin-left: 150px;
+  cursor: pointer;
+  border-radius : 8px;
+  
+
+}
+
+.button3{
+
+ background-color: #afeeee;
+  border-color: red;
+  color: black;
+  padding: 5px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin-top : 5px;
+  margin-left: 190px;
+  cursor: pointer;
+  border-radius : 8px;
+  
+
+}
+
+.myDiv{
+	color : white;
+}
+
+.myDiv1 {
+	margin : auto;
+	height : 20px;
+	width :15%;
+  border: 5px outset red;
+  background-color: #AFEEEE;
+  text-align: center;
+}
+.myDiv2 {
+	 margin-top : 50px;
+	 margin-left: 50px;
+	height : 20px;
+	width :20%;
+  border: 5px outset red;
+  background-color: #AFEEEE;
+  text-align: center;
+}
+
+.myDiv4{
+	 
+	 margin-left : 10px;
+	 margin-top : 10px;
+	 position : absolute;
+	 text-align  :right;
+ }
